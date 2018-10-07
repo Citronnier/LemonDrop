@@ -1,14 +1,16 @@
 const Koa = require('koa');
-const koa_static = require('koa-static');
+const kstatic = require('koa-static');
+const kroute = require('koa-route');
 const path = require('path');
 const app = new Koa();
 
 const staticPath = './static';
 
-app.use(koa_static(path.join(__dirname, staticPath)));
+app.use(kstatic(path.join(__dirname, staticPath)));
 
-app.use(async ctx => {
+app.use(kroute.get('/', async ctx => {
     ctx.body = 'Hello Koa';
-});
+    ctx.toJSON({});
+}));
 
 app.listen(3000);
