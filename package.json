@@ -18,7 +18,8 @@
   "homepage": "https://github.com/Citronnier/LemonDrop#readme",
   "dependencies": {
     "koa": "^2.5.3",
-    "koa-route": "^3.2.0",
+    "koa-body": "^4.0.4",
+    "koa-router": "^7.4.0",
     "koa-static": "^5.0.0"
   }
 }
