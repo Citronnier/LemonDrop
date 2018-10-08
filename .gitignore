@@ -7,3 +7,6 @@ jspm_packages/
 
 # VS Code
 .vscode
+
+# Data
+data/**/20*.json
