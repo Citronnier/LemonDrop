@@ -1,0 +1,25 @@
+{
+  "name": "lemondrop",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Citronnier/LemonDrop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Citronnier/LemonDrop/issues"
+  },
+  "homepage": "https://github.com/Citronnier/LemonDrop#readme",
+  "dependencies": {
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0"
+  }
+}
