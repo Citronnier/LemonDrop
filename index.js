@@ -51,7 +51,7 @@ dataRooms.forEach(r => {
 
 main.get('/', async ctx => {
     ctx.response.type = 'html';
-    ctx.response.body = fs.createReadStream('./static/hello.html');
+    ctx.response.body = fs.createReadStream('./static/main.html');
 });
 
 rooms.get('/', async ctx => {
