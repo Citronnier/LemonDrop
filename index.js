@@ -83,7 +83,7 @@ acts.get('/:aid', async ctx => {
 acts.post('/', async ctx => {
     let rid = ctx.params.rid;
     try {
-        let body = ctx.request.body;
+        let body = JSON.parse(ctx.request.body);
         if (!body.begin || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.begin)
             || !body.end || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.end)
             || !body.user) {

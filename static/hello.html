@@ -11,9 +11,18 @@
 		<h1> Hello, World! </h1>
 		<div id="roomlist"></div>
 		<div id="actlist"></div>
-		<div id="actpanel"></div>
+		<div id="actpanel" hidden>
+			<input type="date" id="date" class="form-control">
+			<input type="number" id="begin-hour" value="12">
+			<input type="number" id="begin-minute" value="00">
+			<input type="number" id="end-hour" value="13">
+			<input type="number" id="end-minute" value="00">
+			<input type="text" id="user" class="form-control" placeholder="使用者">
+			<button id="commit" class="btn">提交</button>
+		</div>
 
 		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 		<script src = 'main.js'></script>
 	</body>
