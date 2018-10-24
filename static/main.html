@@ -74,10 +74,10 @@
 						</td>
 						<td style = "text-align: right">
 							<span class = "btn-group">
-							<button class = "js-cal-option btn btn-default {{: mode === 'year'? 'active':'' }}" data-mode = "year">Año</button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'month'? 'active':'' }}" data-mode = "month">Mes</button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'week'? 'active':'' }}" data-mode = "week">Semana</button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'day'? 'active':'' }}" data-mode = "day">Dia</button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'year'? 'active':'' }}" data-mode = "year"> Year </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'month'? 'active':'' }}" data-mode = "month"> Month </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'week'? 'active':'' }}" data-mode = "week"> Week </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'day'? 'active':'' }}" data-mode = "day"> Day </button>
 							</span>
 						</td>
 						</tr>
@@ -387,12 +387,12 @@
 				}
 				});
 			})({
-				days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
-				months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-				shortMonths: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+				months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+				shortMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."],
 				date: (new Date()),
 					daycss: ["c-sunday", "", "", "", "", "", "c-saturday"],
-					todayname: "Hoy",
+					todayname: "Today",
 					thismonthcss: "current",
 					lastmonthcss: "outside",
 					nextmonthcss: "outside",
@@ -439,7 +439,7 @@
 			$('#holder').calendar({
 			data: data
 			});
-			</script>
+		</script>
 		<div id = 'actpanel' hidden>
 			<input type = 'date' id = 'date' class = 'form-control'>
 			<input type = 'number' id = 'begin-hour' value = '12'>
