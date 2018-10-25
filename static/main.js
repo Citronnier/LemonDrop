@@ -1,12 +1,11 @@
 var roomid = undefined;
 
 $(document).ready(function () {
-    // $('#date')[0].value = new Date().getFullYear() + '-01-01';
     get('rooms', function (res) {
         var rooms = JSON.parse(res);
         $('#roomlist').empty();
         for (var r of rooms) {
-            $('#roomlist').append('<a id="room-' + r.id + '" href="#">' + r.name + '</a>');
+            $('#roomlist').append('<button class = "btn" id = "room-' + r.id + '">' + r.name + '</button>');
             $('#room-' + r.id).on('click', null, r.id, getActs);
         }
     });
