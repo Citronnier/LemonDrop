@@ -68,10 +68,38 @@ acts.get('/month/:month', async ctx => {
 	let rid = ctx.params.rid;
 	let month = ctx.params.month;
 	if (! dataRooms.some(r => r.id === rid) || ! /^\d{4}-\d{2}$/.test(month)) {
-		ctx.throw(404); return;
+		ctx.throw(400); return;
 	}
 	let y = month.substr(0, 4), m = month.substr(5, 2);
 	let r = await getByMonth(rid, y, m);
+	ctx.response.body = r;
+});
+
+acts.get('/from/:from/to/:to', async ctx => {
+	let rid = ctx.params.rid;
+	let fromStr = ctx.params.from;
+	let toStr = ctx.params.to;
+	if (! dataRooms.some(r => r.id === rid)
+		|| ! /^\d{4}-\d{2}-\d{2}$/.test(fromStr)
+		|| ! /^\d{4}-\d{2}-\d{2}$/.test(toStr)) {
+		ctx.throw(400); return;
+	}
+	let from = fromStr.split('-').map(i => parseInt(i));
+	let to = toStr.split('-').map(i => parseInt(i));
+	let r = [];
+	let year = from[0], month = from[1];
+	while (year < to[0] || (year == to[0] && month <= to[1])) {
+		r = r.concat(await getByMonth(rid, year.toString(), month.toString()));
+		month++;
+		if (month > 12) {
+			year++;
+			month = 1;
+		}
+	}
+	while (r.length && r[0].end < fromStr.substr(0, 10))
+		r.shift();
+	while (r.length && r[r.length - 1].begin > toStr.substr(0, 10))
+		r.pop();
 	ctx.response.body = r;
 });
 
