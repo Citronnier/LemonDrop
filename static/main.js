@@ -1,6 +1,7 @@
 var roomid = undefined;
 
 $(document).ready(function () {
+    $('#date').val(dateToStr(new Date()));
     get('rooms', function (res) {
         var rooms = JSON.parse(res);
         $('#roomlist').empty();
