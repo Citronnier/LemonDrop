@@ -17,6 +17,18 @@ let acts = new KRouter({ prefix: '/acts' });
 
 let dataRooms = [];
 
+const isDate = function (str) {
+	if (! /^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
+	if (Date.parse(str)) return true;
+	return false;
+};
+
+const isDateTime = function (str) {
+	if (! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(str)) return false;
+	if (Date.parse(str)) return true;
+	return false;
+};
+
 const read = function (filename) {
 	return new Promise((resolve, reject) => {
 		fs.readFile(filename, 'utf8', (err, data) => {
@@ -67,7 +79,7 @@ rooms.get('/', async ctx => {
 acts.get('/month/:month', async ctx => {
 	let rid = ctx.params.rid;
 	let month = ctx.params.month;
-	if (! dataRooms.some(r => r.id === rid) || ! /^\d{4}-\d{2}$/.test(month)) {
+	if (! dataRooms.some(r => r.id === rid) || ! isDate(month + '-01')) {
 		ctx.throw(400); return;
 	}
 	let y = month.substr(0, 4), m = month.substr(5, 2);
@@ -80,8 +92,7 @@ acts.get('/from/:from/to/:to', async ctx => {
 	let fromStr = ctx.params.from;
 	let toStr = ctx.params.to;
 	if (! dataRooms.some(r => r.id === rid)
-		|| ! /^\d{4}-\d{2}-\d{2}$/.test(fromStr)
-		|| ! /^\d{4}-\d{2}-\d{2}$/.test(toStr)) {
+		|| ! isDate(fromStr) || ! isDate(toStr)) {
 		ctx.throw(400); return;
 	}
 	let from = fromStr.split('-').map(i => parseInt(i));
@@ -112,8 +123,8 @@ acts.post('/', async ctx => {
 	let rid = ctx.params.rid;
 	try {
 		let body = JSON.parse(ctx.request.body);
-		if (!body.begin || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.begin)
-			|| !body.end || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.end)
+		if (!body.begin || ! isDateTime(body.begin)
+			|| !body.end || ! isDateTime(body.end)
 			|| !body.user) {
 				ctx.throw(400);
 				return;
