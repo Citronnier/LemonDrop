@@ -1,6 +1,7 @@
 var roomid = undefined;
 
 $(document).ready(function () {
+    $('#date').val(dateToStr(new Date()));
     get('rooms', function (res) {
         var rooms = JSON.parse(res);
         $('#roomlist').empty();
@@ -15,14 +16,14 @@ $('#commit').on('click', commit);
 
 function getActs(e) {
     roomid = e.data;
-    var year = new Date().getFullYear();
-    var month = new Date().getMonth() + 1;
-    get('rooms/' + roomid + '/acts/month/' + year + '-' + month, function (res) {
+    var fromDate = new Date(), toDate = new Date();
+    fromDate.setMonth(fromDate.getMonth() - 1);
+    fromDate.setDate(1);
+    toDate.setMonth(toDate.getMonth() + 7);
+    toDate.setDate(0);
+    get('rooms/' + roomid + '/acts/from/' + dateToStr(fromDate) + '/to/' + dateToStr(toDate), function (res) {
         var acts = JSON.parse(res);
-        $('#actlist').empty();
-        for (var act of acts) {
-            $('#actlist').append('<p>' + JSON.stringify(act) + '</p>');
-        }
+        addData(acts);
         $('#actpanel')[0].hidden = false;
     });
     return false;
@@ -71,4 +72,21 @@ function post(url, content, success, fail) {
     }
     req.open('POST', url);
     req.send(content);
+};
+
+function dateToStr(date) {
+    return date.getFullYear() + '-'
+        + ('0' + (date.getMonth() + 1)).substr(-2) + '-'
+        + ('0' + date.getDate()).substr(-2);
+};
+
+function addData(acts) {
+    var data = acts.map(function (act) { return {
+        title: act.user,
+        start: new Date(act.begin),
+        end: new Date(act.end),
+        allDay: false,
+        text: ""
+    }});
+    $('#holder').calendar({ data: data });
 };

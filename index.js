@@ -17,6 +17,18 @@ let acts = new KRouter({ prefix: '/acts' });
 
 let dataRooms = [];
 
+const isDate = function (str) {
+	if (! /^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
+	if (Date.parse(str)) return true;
+	return false;
+};
+
+const isDateTime = function (str) {
+	if (! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(str)) return false;
+	if (Date.parse(str)) return true;
+	return false;
+};
+
 const read = function (filename) {
 	return new Promise((resolve, reject) => {
 		fs.readFile(filename, 'utf8', (err, data) => {
@@ -67,11 +79,38 @@ rooms.get('/', async ctx => {
 acts.get('/month/:month', async ctx => {
 	let rid = ctx.params.rid;
 	let month = ctx.params.month;
-	if (! dataRooms.some(r => r.id === rid) || ! /^\d{4}-\d{2}$/.test(month)) {
-		ctx.throw(404); return;
+	if (! dataRooms.some(r => r.id === rid) || ! isDate(month + '-01')) {
+		ctx.throw(400); return;
 	}
 	let y = month.substr(0, 4), m = month.substr(5, 2);
 	let r = await getByMonth(rid, y, m);
+	ctx.response.body = r;
+});
+
+acts.get('/from/:from/to/:to', async ctx => {
+	let rid = ctx.params.rid;
+	let fromStr = ctx.params.from;
+	let toStr = ctx.params.to;
+	if (! dataRooms.some(r => r.id === rid)
+		|| ! isDate(fromStr) || ! isDate(toStr)) {
+		ctx.throw(400); return;
+	}
+	let from = fromStr.split('-').map(i => parseInt(i));
+	let to = toStr.split('-').map(i => parseInt(i));
+	let r = [];
+	let year = from[0], month = from[1];
+	while (year < to[0] || (year == to[0] && month <= to[1])) {
+		r = r.concat(await getByMonth(rid, year.toString(), month.toString()));
+		month++;
+		if (month > 12) {
+			year++;
+			month = 1;
+		}
+	}
+	while (r.length && r[0].end < fromStr.substr(0, 10))
+		r.shift();
+	while (r.length && r[r.length - 1].begin > toStr.substr(0, 10))
+		r.pop();
 	ctx.response.body = r;
 });
 
@@ -84,8 +123,8 @@ acts.post('/', async ctx => {
 	let rid = ctx.params.rid;
 	try {
 		let body = JSON.parse(ctx.request.body);
-		if (!body.begin || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.begin)
-			|| !body.end || ! /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(body.end)
+		if (!body.begin || ! isDateTime(body.begin)
+			|| !body.end || ! isDateTime(body.end)
 			|| !body.user) {
 				ctx.throw(400);
 				return;
