@@ -162,51 +162,48 @@
 				</tbody>
 				{{ } }}
 			</table>
-			</script>
-			
-			
-			<script>
-				var $currentPopover = null;
-			$(document).on('shown.bs.popover', function (ev) {
+		</script>
+		<script>
+			var $currentPopover = null;
+			$(document).on('shown.bs.popover', function(ev) {
 				var $target = $(ev.target);
-				if ($currentPopover && ($currentPopover.get(0) !=  $target.get(0))) {
-				$currentPopover.popover('toggle');
-				}
+				if ($currentPopover && ($currentPopover.get(0) != $target.get(0)))
+					$currentPopover.popover('toggle');
 				$currentPopover = $target;
 			}).on('hidden.bs.popover', function (ev) {
 				var $target = $(ev.target);
-				if ($currentPopover && ($currentPopover.get(0) ==  $target.get(0))) {
-				$currentPopover = null;
-				}
+				if ($currentPopover && ($currentPopover.get(0) == $target.get(0)))
+					$currentPopover = null;
 			});
-			
-			
+
 			//quicktmpl is a simple template language I threw together a while ago; it is not remotely secure to xss and probably has plenty of bugs that I haven't considered, but it basically works
 			//the design is a function I read in a blog post by John Resig (http://ejohn.org/blog/javascript-micro-templating/) and it is intended to be loosely translateable to a more comprehensive template language like mustache easily
 			$.extend({
-				quicktmpl: function (template) {return new Function("obj","var p = [],print = function(){p.push.apply(p,arguments);};with(obj){p.push('"+template.replace(/[\r\t\n]/g," ").split("{{").join("\t").replace(/((^|\}\})[^\t]*)'/g,"$1\r").replace(/\t:(.*?)\}\}/g,"',$1,'").split("\t").join("');").split("}}").join("p.push('").split("\r").join("\\'")+"');}return p.join('');")}
+				quicktmpl: function (template) {
+					return new Function("obj","var p = [],print = function(){p.push.apply(p,arguments);};with(obj){p.push('"+template.replace(/[\r\t\n]/g," ").split("{{").join("\t").replace(/((^|\}\})[^\t]*)'/g,"$1\r").replace(/\t:(.*?)\}\}/g,"',$1,'").split("\t").join("');").split("}}").join("p.push('").split("\r").join("\\'")+"');}return p.join('');")
+				}
 			});
 			
 			$.extend(Date.prototype, {
-			//provides a string that is _year_month_day, intended to be widely usable as a css class
-			toDateCssClass:  function () { 
-				return '_' + this.getFullYear() + '_' + (this.getMonth() + 1) + '_' + this.getDate(); 
-			},
-			//this generates a number useful for comparing two dates; 
-			toDateInt: function () { 
-				return ((this.getFullYear()*12) + this.getMonth())*32 + this.getDate(); 
-			},
-			toTimeString: function() {
-				var hours = this.getHours(),
-					minutes = this.getMinutes(),
-					hour = (hours > 12) ? (hours - 12) : hours,
-					ampm = (hours >=  12) ? ' pm' : ' am';
-				if (hours === 0 && minutes === 0) { return ''; }
-				if (minutes > 0) {
-				return hour + ':' + minutes + ampm;
+				//provides a string that is _year_month_day, intended to be widely usable as a css class
+				toDateCssClass:  function() { 
+					return '_' + this.getFullYear() + '_' + (this.getMonth() + 1) + '_' + this.getDate(); 
+				},
+				//this generates a number useful for comparing two dates; 
+				toDateInt: function() { 
+					return ((this.getFullYear()*12) + this.getMonth())*32 + this.getDate(); 
+				},
+				toTimeString: function() {
+					var hours = this.getHours(),
+						minutes = this.getMinutes(),
+						hour = (hours > 12) ? (hours - 12) : hours,
+						ampm = (hours >=  12) ? ' pm' : ' am';
+					if (hours === 0 && minutes === 0)
+						return '';
+					if (minutes > 0)
+						return hour + ':' + minutes + ampm;
+					return hour + ampm;
 				}
-				return hour + ampm;
-			}
 			});
 			
 			
@@ -337,50 +334,47 @@
 				}
 				}
 				function yearAddEvents(events, year) {
-				var counts = [0,0,0,0,0,0,0,0,0,0,0,0];
-				$.each(events, function (i, v) {
-					if (v.start.getFullYear() === year) {
-						counts[v.start.getMonth()]++;
-					}
-				});
-				$.each(counts, function (i, v) {
-					if (v !== 0) {
-						$('.month-'+i).append('<span class = "badge">'+v+'</span>');
-					}
-				});
+					var counts = [0,0,0,0,0,0,0,0,0,0,0,0];
+					$.each(events, function (i, v) {
+						if (v.start.getFullYear() === year) {
+							counts[v.start.getMonth()]++;
+						}
+					});
+					$.each(counts, function (i, v) {
+						if (v !== 0) {
+							$('.month-'+i).append('<span class = "badge">' + v + '</span>');
+						}
+					});
 				}
 				
 				function draw() {
-				$el.html(t(options));
-				//potential optimization (untested), this object could be keyed into a dictionary on the dateclass string; the object would need to be reset and the first entry would have to be made here
-				$('.' + (new Date()).toDateCssClass()).addClass('today');
-				if (options.data && options.data.length) {
-					if (options.mode === 'year') {
-						yearAddEvents(options.data, options.date.getFullYear());
-					} else if (options.mode === 'month' || options.mode === 'week') {
-						$.each(options.data, monthAddEvent);
-					} else {
-						$.each(options.data, dayAddEvent);
-					}
+					$el.html(t(options));
+					//potential optimization (untested), this object could be keyed into a dictionary on the dateclass string; the object would need to be reset and the first entry would have to be made here
+					$('.' + (new Date()).toDateCssClass()).addClass('today');
+					if (options.data && options.data.length)
+						if (options.mode === 'year')
+							yearAddEvents(options.data, options.date.getFullYear());
+						else if (options.mode === 'month' || options.mode === 'week')
+							$.each(options.data, monthAddEvent);
+						else
+							$.each(options.data, dayAddEvent);
 				}
-				}
-				
 				draw();	
-			}
+			};
 			
-			;(function (defaults, $, window, document) {
+			(function(defaults, $, window, document) {
 				$.extend({
-				calendar: function (options) {
-					return $.extend(defaults, options);
-				}
+					calendar: function (options) {
+						return $.extend(defaults, options);
+					}
 				}).fn.extend({
-				calendar: function (options) {
-					options = $.extend({}, defaults, options);
-					return $(this).each(function () {
-					var $this = $(this);
-					calendar($this, options);
-					});
-				}
+					calendar: function (options) {
+						options = $.extend({}, defaults, options);
+						return $(this).each(function () {
+						var $this = $(this);
+						calendar($this, options);
+						});
+					}
 				});
 			})({
 				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
