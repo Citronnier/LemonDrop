@@ -8,9 +8,9 @@
 		<link rel = 'stylesheet' href = 'https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' id = 'bootstrap-css'>
 		<link rel = 'stylesheet' href = 'calendar.css' id = 'calendar-css'>
 	</head>
-	<body class = 'container'>
+	<body class = 'container' style = 'font-family: "Source Sans Pro", "Microsoft YaHei"'>
 		<nav class = 'navbar navbar-dark bg-primary fixed-top'>
-			<span class = 'navbar-brand mb-0 h1'> 研会办公室借用 </span>
+			<span class = 'navbar-brand mb-0 h1'> 校研会办公室借用 </span>
 			<div id = 'roomlist' class = 'col-md-auto btn-group'></div>
 		</nav>
 		<div id = "holder" class = "row theme-showcase" style = 'padding-top: 70px'></div>
@@ -70,10 +70,10 @@
 						</td>
 						<td style = "text-align: right">
 							<span class = "btn-group">
-							<button class = "js-cal-option btn btn-default {{: mode === 'year'? 'active':'' }}" data-mode = "year"> Year </button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'month'? 'active':'' }}" data-mode = "month"> Month </button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'week'? 'active':'' }}" data-mode = "week"> Week </button>
-							<button class = "js-cal-option btn btn-default {{: mode === 'day'? 'active':'' }}" data-mode = "day"> Day </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'year'? 'active':'' }}" data-mode = "year"> 年 </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'month'? 'active':'' }}" data-mode = "month"> 月 </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'week'? 'active':'' }}" data-mode = "week"> 周 </button>
+							<button class = "js-cal-option btn btn-default {{: mode === 'day'? 'active':'' }}" data-mode = "day"> 日 </button>
 							</span>
 						</td>
 						</tr>
@@ -138,7 +138,7 @@
 							<td class = "{{: date.toDateCssClass() }}">  </td>
 						</tr>
 						<tr>
-							<th class = "timetitle" >Before 6 AM</th>
+							<th class = "timetitle" >6 AM 前</th>
 							<td class = "time-0-0"> </td>
 						</tr>
 						{{for (i = 6; i < 22; i++) { }}
@@ -152,7 +152,7 @@
 						</tr>
 						{{ } }}
 						<tr>
-							<th class = "timetitle" >After 10 PM</th>
+							<th class = "timetitle" >10 PM 后</th>
 							<td class = "time-22-0"> </td>
 						</tr>
 						</tbody>
@@ -377,12 +377,12 @@
 					}
 				});
 			})({
-				days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-				months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+				days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+				months: ["元月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
 				shortMonths: ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."],
 				date: (new Date()),
 					daycss: ["c-sunday", "", "", "", "", "", "c-saturday"],
-					todayname: "Today",
+					todayname: "今天",
 					thismonthcss: "current",
 					lastmonthcss: "outside",
 					nextmonthcss: "outside",
@@ -393,12 +393,29 @@
 			})(jQuery);
 		</script>
 		<div id = 'actpanel' hidden>
-			<input type = 'date' id = 'date' class = 'form-control'>
-			<input type = 'number' id = 'begin-hour' value = '12'>
-			<input type = 'number' id = 'begin-minute' value = '00'>
-			<input type = 'number' id = 'end-hour' value = '13'>
-			<input type = 'number' id = 'end-minute' value = '00'>
-			<input type = 'text' id = 'user' class = 'form-control' placeholder = '使用者'>
+			<div class = 'row'>
+				<input type = 'date' id = 'date' class = 'form-control col-6'>
+				<select id = 'user' class = 'form-control col-6' required>
+					<option value = 'defaul'>*** 借用部门 ***</option>
+					<option value = 'genoff'>办公室</option>
+					<option value = 'intcom'>内联部</option>
+					<option value = 'academ'>学术部</option>
+					<option value = 'acacom'>学术交流中心</option>
+					<option value = 'inform'>数据运营中心</option>
+					<option value = 'stulif'>生活部</option>
+					<option value = 'cultur'>文化部</option>
+					<option value = 'sports'>体育部</option>
+					<option value = 'extcom'>外联部</option>
+					<option value = 'newsct'>融媒体中心</option>
+					<option value = 'intern'>国际部</option>
+				</select>
+			</div>
+			<div class = 'row'>
+					<input type = 'number' id = 'begin-hour' class = 'form-control col-3' value = '19' max = '24'>
+					<input type = 'number' id = 'begin-minute' class = 'form-control col-3' value = '00' step = '30' max = '30'>
+					<input type = 'number' id = 'end-hour' class = 'form-control col-3' value = '21' max = '24'>
+					<input type = 'number' id = 'end-minute' class = 'form-control col-3' value = '00' step = '30' max = '30'>
+				</div>
 			<button id = 'commit' class = 'btn'>提交</button>
 		</div>
 

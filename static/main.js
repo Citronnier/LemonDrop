@@ -35,10 +35,14 @@ function commit() {
     var beginMinute = ('0' + $('#begin-minute')[0].value).substr(-2);
     var endHour = ('0' + $('#end-hour')[0].value).substr(-2);
     var endMinute = ('0' + $('#end-minute')[0].value).substr(-2);
+    if ($('#user')[0].value === 'defaul') {
+        alert('请选择借用部门！');
+        return;
+    }
     post('rooms/' + roomid + '/acts', JSON.stringify({
         begin: date + ' ' + beginHour + ':' + beginMinute,
         end: date + ' ' + endHour + ':' + endMinute,
-        user: $('#user')[0].value,
+        user: $('#user option:selected').text(),
     }), function (res) {
         $('#room-' + roomid).click();
     })
