@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 });
 
-$('#commit').on('click', commit);
+$('#submit').on('click', submit);
 
 function getActs(e) {
     roomid = e.data;
@@ -29,7 +29,7 @@ function getActs(e) {
     return false;
 };
 
-function commit() {
+function submit() {
     var date = $('#date')[0].value;
     var beginHour = ('0' + $('#begin-hour')[0].value).substr(-2);
     var beginMinute = ('0' + $('#begin-minute')[0].value).substr(-2);
