@@ -90,7 +90,7 @@ function addData(acts) {
         start: new Date(act.begin),
         end: new Date(act.end),
         allDay: false,
-        text: ""
+        text: act.begin.split(' ')[1] + " - " + act.end.split(' ')[1] + ' : ' + act.user,
     }});
     $('#holder').calendar({ data: data });
 };

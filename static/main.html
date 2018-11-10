@@ -266,7 +266,7 @@
 					monthAddEvent(index, event);
 					return;
 				}
-				var $event = $('<div/>', {'class': 'event', text: event.title, title: event.title, 'data-index': index}),
+				var $event = $('<div/>', {'class': 'event', text: event.text, title: event.title, 'data-index': index}),
 					start = event.start,
 					end = event.end || start,
 					time = event.start.toTimeString(),
